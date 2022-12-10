@@ -1,6 +1,7 @@
 package web
 
 import (
+	"context"
 	"github.com/labstack/echo/v4"
 	"net/http"
 )
@@ -21,4 +22,8 @@ func NewServer() *Server {
 
 func (s *Server) Start(address string) error {
 	return s.e.Start(address)
+}
+
+func (s *Server) Shutdown(ctx context.Context) error {
+	return s.e.Shutdown(ctx)
 }
