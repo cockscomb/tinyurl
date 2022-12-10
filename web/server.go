@@ -4,24 +4,31 @@ import (
 	"context"
 	"github.com/labstack/echo/v4"
 	"net/http"
+	"strconv"
 )
 
-type Server struct {
-	e *echo.Echo
+type ServerConfig struct {
+	Port int `env:"PORT" envDefault:"8080"`
 }
 
-func NewServer() *Server {
+type Server struct {
+	e      *echo.Echo
+	config *ServerConfig
+}
+
+func NewServer(config *ServerConfig) *Server {
 	e := echo.New()
 	e.GET("/", func(c echo.Context) error {
 		return c.String(http.StatusOK, "Hello, World!")
 	})
 	return &Server{
-		e: e,
+		e:      e,
+		config: config,
 	}
 }
 
-func (s *Server) Start(address string) error {
-	return s.e.Start(address)
+func (s *Server) Start() error {
+	return s.e.Start(":" + strconv.Itoa(s.config.Port))
 }
 
 func (s *Server) Shutdown(ctx context.Context) error {

@@ -2,7 +2,6 @@ package main
 
 import (
 	"context"
-	"github.com/cockscomb/tinyurl/web"
 	"log"
 	"net/http"
 	"os"
@@ -11,10 +10,13 @@ import (
 )
 
 func main() {
-	server := web.NewServer()
+	server, err := InitializeServer()
+	if err != nil {
+		log.Fatalln(err)
+	}
 
 	go func() {
-		if err := server.Start(":8080"); err != nil && err != http.ErrServerClosed {
+		if err := server.Start(); err != nil && err != http.ErrServerClosed {
 			log.Fatalln("shutting down the server")
 		}
 	}()
