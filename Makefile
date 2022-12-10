@@ -1,8 +1,13 @@
 NAME=tinyurl
 
-.PHONY: build run
+.PHONY: build
 build:
-	go build -o bin/$(NAME) main.go
+	go build -o tmp/$(NAME) main.go
 
-run:
-	go run main.go
+.PHONY: install-tools
+install-tools:
+	go install github.com/cosmtrek/air@latest
+
+.PHONY: run
+run: install-tools
+	air
