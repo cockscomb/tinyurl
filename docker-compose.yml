@@ -11,5 +11,18 @@ services:
       - PORT=8080
     ports:
       - "8080:8080"
+    depends_on:
+      - dynamodb
     volumes:
       - .:/go/src/github.com/cockscomb/tinyurl
+  dynamodb:
+    image: amazon/dynamodb-local
+    command: [ "-jar", "DynamoDBLocal.jar", "-sharedDb", "-dbPath", "/dynamodb_local_db" ]
+    user: root # XXX
+    volumes:
+      - dynamodb:/dynamodb_local_db
+    ports:
+      - "8000:8000"
+volumes:
+    dynamodb:
+      driver: local
