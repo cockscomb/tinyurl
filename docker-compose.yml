@@ -1,0 +1,11 @@
+services:
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+      target: builder
+    command: ["make", "run"]
+    ports:
+      - "8080:8080"
+    volumes:
+      - .:/go/src/github.com/cockscomb/tinyurl
