@@ -11,7 +11,7 @@ type Config struct {
 	web.ServerConfig
 	AWSConfig      AWSConfig                 `envPrefix:"AWS_"`
 	DynamoDBConfig DynamoDBConfig            `envPrefix:"DYNAMODB_"`
-	URLStoreConfig repository.URLStoreConfig `envPrefix:"DYNAMODB_TABLE_"`
+	URLStoreConfig repository.URLStoreConfig `envPrefix:"DYNAMODB_"`
 }
 
 func ParseEnv() (*Config, error) {

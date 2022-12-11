@@ -4,7 +4,6 @@ import (
 	"context"
 	"github.com/cockscomb/tinyurl/web/controller"
 	"github.com/labstack/echo/v4"
-	"net/http"
 	"strconv"
 )
 
@@ -19,9 +18,7 @@ type Server struct {
 
 func NewServer(config *ServerConfig, controller *controller.Controller) *Server {
 	e := echo.New()
-	e.GET("/", func(c echo.Context) error {
-		return c.String(http.StatusOK, "Hello, World!")
-	})
+	controller.Route(e.Group(""))
 	return &Server{
 		e:      e,
 		config: config,

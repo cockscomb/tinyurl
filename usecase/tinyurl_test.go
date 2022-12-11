@@ -51,6 +51,18 @@ func TestTinyURLUsecase_Generate(t *testing.T) {
 		assert.NilError(t, err)
 		assert.Assert(t, tu.ID != "")
 	})
+
+	t.Run("invalid scheme", func(t *testing.T) {
+		ctrl := gomock.NewController(t)
+		store := mock_repository.NewMockURLStore(ctrl)
+
+		usecase := NewTinyURLUsecase(store)
+
+		tu, err := usecase.Generate(context.Background(), &url.URL{Scheme: "ftp"})
+		assert.ErrorType(t, err, new(entity.ValidationError))
+		assert.ErrorContains(t, err, "invalid scheme")
+		assert.Assert(t, tu == nil)
+	})
 }
 
 func TestTinyURLUsecase_Access(t *testing.T) {

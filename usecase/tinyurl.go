@@ -21,6 +21,9 @@ func NewTinyURLUsecase(store URLStore) *TinyURLUsecase {
 }
 
 func (usecase *TinyURLUsecase) Generate(ctx context.Context, u *url.URL) (*entity.TinyURL, error) {
+	if u.Scheme != "http" && u.Scheme != "https" {
+		return nil, entity.NewValidationError("invalid scheme")
+	}
 	for {
 		tu := entity.GenerateTinyURL(u)
 		if err := usecase.store.Create(ctx, tu); err != nil {

@@ -13,7 +13,7 @@ import (
 )
 
 type URLStoreConfig struct {
-	TableName string `env:"TABLE_URL,required"`
+	TableName string `env:"URL_TABLE,required"`
 }
 
 type URLStore struct {
