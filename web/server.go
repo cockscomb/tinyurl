@@ -2,6 +2,7 @@ package web
 
 import (
 	"context"
+	"github.com/aws/aws-sdk-go-v2/service/dynamodb"
 	"github.com/labstack/echo/v4"
 	"net/http"
 	"strconv"
@@ -16,10 +17,15 @@ type Server struct {
 	config *ServerConfig
 }
 
-func NewServer(config *ServerConfig) *Server {
+func NewServer(config *ServerConfig, db *dynamodb.Client) *Server {
 	e := echo.New()
 	e.GET("/", func(c echo.Context) error {
-		return c.String(http.StatusOK, "Hello, World!")
+		output, err := db.ListTables(c.Request().Context(), &dynamodb.ListTablesInput{})
+		if err != nil {
+			c.Logger().Error(err)
+			return err
+		}
+		return c.JSON(http.StatusOK, output)
 	})
 	return &Server{
 		e:      e,

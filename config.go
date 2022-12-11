@@ -8,6 +8,8 @@ import (
 
 type Config struct {
 	web.ServerConfig
+	AWSConfig      AWSConfig      `envPrefix:"AWS_"`
+	DynamoDBConfig DynamoDBConfig `envPrefix:"DYNAMODB_"`
 }
 
 func ParseEnv() (*Config, error) {
@@ -20,5 +22,10 @@ func ParseEnv() (*Config, error) {
 
 var ConfigSet = wire.NewSet(
 	ParseEnv,
-	wire.FieldsOf(new(*Config), "ServerConfig"),
+	wire.FieldsOf(
+		new(*Config),
+		"ServerConfig",
+		"AWSConfig",
+		"DynamoDBConfig",
+	),
 )

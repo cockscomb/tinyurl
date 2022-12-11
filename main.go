@@ -10,7 +10,7 @@ import (
 )
 
 func main() {
-	server, err := InitializeServer()
+	server, err := InitializeServer(context.Background())
 	if err != nil {
 		log.Fatalln(err)
 	}

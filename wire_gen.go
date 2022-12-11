@@ -7,17 +7,25 @@
 package main
 
 import (
+	"context"
 	"github.com/cockscomb/tinyurl/web"
 )
 
 // Injectors from wire.go:
 
-func InitializeServer() (*web.Server, error) {
+func InitializeServer(ctx context.Context) (*web.Server, error) {
 	config, err := ParseEnv()
 	if err != nil {
 		return nil, err
 	}
 	serverConfig := &config.ServerConfig
-	server := web.NewServer(serverConfig)
+	awsConfig := &config.AWSConfig
+	config2, err := LoadAWSConfig(ctx, awsConfig)
+	if err != nil {
+		return nil, err
+	}
+	dynamoDBConfig := &config.DynamoDBConfig
+	client := NewDynamoDBClient(config2, dynamoDBConfig)
+	server := web.NewServer(serverConfig, client)
 	return server, nil
 }

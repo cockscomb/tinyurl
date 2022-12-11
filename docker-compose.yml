@@ -7,6 +7,7 @@ services:
     command: [ "make", "run" ]
     env_file:
       - .env
+      - .env.local
     environment:
       - PORT=8080
     ports:
