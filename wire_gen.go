@@ -8,7 +8,10 @@ package main
 
 import (
 	"context"
+	"github.com/cockscomb/tinyurl/repository"
+	"github.com/cockscomb/tinyurl/usecase"
 	"github.com/cockscomb/tinyurl/web"
+	"github.com/cockscomb/tinyurl/web/controller"
 )
 
 // Injectors from wire.go:
@@ -19,6 +22,7 @@ func InitializeServer(ctx context.Context) (*web.Server, error) {
 		return nil, err
 	}
 	serverConfig := &config.ServerConfig
+	urlStoreConfig := &config.URLStoreConfig
 	awsConfig := &config.AWSConfig
 	config2, err := LoadAWSConfig(ctx, awsConfig)
 	if err != nil {
@@ -26,6 +30,9 @@ func InitializeServer(ctx context.Context) (*web.Server, error) {
 	}
 	dynamoDBConfig := &config.DynamoDBConfig
 	client := NewDynamoDBClient(config2, dynamoDBConfig)
-	server := web.NewServer(serverConfig, client)
+	urlStore := repository.NewURLStore(urlStoreConfig, client)
+	tinyURLUsecase := usecase.NewTinyURLUsecase(urlStore)
+	controllerController := controller.NewController(tinyURLUsecase)
+	server := web.NewServer(serverConfig, controllerController)
 	return server, nil
 }

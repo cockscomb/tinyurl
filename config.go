@@ -2,14 +2,16 @@ package main
 
 import (
 	"github.com/caarlos0/env/v6"
+	"github.com/cockscomb/tinyurl/repository"
 	"github.com/cockscomb/tinyurl/web"
 	"github.com/google/wire"
 )
 
 type Config struct {
 	web.ServerConfig
-	AWSConfig      AWSConfig      `envPrefix:"AWS_"`
-	DynamoDBConfig DynamoDBConfig `envPrefix:"DYNAMODB_"`
+	AWSConfig      AWSConfig                 `envPrefix:"AWS_"`
+	DynamoDBConfig DynamoDBConfig            `envPrefix:"DYNAMODB_"`
+	URLStoreConfig repository.URLStoreConfig `envPrefix:"DYNAMODB_TABLE_"`
 }
 
 func ParseEnv() (*Config, error) {
@@ -27,5 +29,6 @@ var ConfigSet = wire.NewSet(
 		"ServerConfig",
 		"AWSConfig",
 		"DynamoDBConfig",
+		"URLStoreConfig",
 	),
 )
