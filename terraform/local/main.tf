@@ -1,7 +1,11 @@
+variable "dynamodb_endpoint" {
+  default = "http://localhost:8000"
+}
+
 provider "aws" {
-  region     = "ap-northeast-1"
+  region = "ap-northeast-1"
   endpoints {
-    dynamodb = "http://localhost:8000"
+    dynamodb = var.dynamodb_endpoint
   }
 }
 
