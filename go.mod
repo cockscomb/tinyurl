@@ -10,6 +10,7 @@ require (
 	github.com/aws/aws-sdk-go-v2/feature/dynamodb/expression v1.4.33
 	github.com/aws/aws-sdk-go-v2/service/dynamodb v1.17.8
 	github.com/caarlos0/env/v6 v6.10.1
+	github.com/golang/mock v1.6.0
 	github.com/google/wire v0.5.0
 	github.com/labstack/echo/v4 v4.9.1
 	github.com/labstack/gommon v0.4.0
