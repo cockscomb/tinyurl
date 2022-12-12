@@ -22,7 +22,8 @@ func InitializeServer(ctx context.Context) (*web.Server, error) {
 		return nil, err
 	}
 	serverConfig := &config.ServerConfig
-	template := web.NewTemplate()
+	templateConfig := &config.TemplateConfig
+	template := web.NewTemplate(templateConfig)
 	urlStoreConfig := &config.URLStoreConfig
 	awsConfig := &config.AWSConfig
 	config2, err := LoadAWSConfig(ctx, awsConfig)

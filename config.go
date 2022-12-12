@@ -9,6 +9,7 @@ import (
 
 type Config struct {
 	web.ServerConfig
+	TemplateConfig web.TemplateConfig
 	AWSConfig      AWSConfig                 `envPrefix:"AWS_"`
 	DynamoDBConfig DynamoDBConfig            `envPrefix:"DYNAMODB_"`
 	URLStoreConfig repository.URLStoreConfig `envPrefix:"DYNAMODB_"`
@@ -27,6 +28,7 @@ var ConfigSet = wire.NewSet(
 	wire.FieldsOf(
 		new(*Config),
 		"ServerConfig",
+		"TemplateConfig",
 		"AWSConfig",
 		"DynamoDBConfig",
 		"URLStoreConfig",

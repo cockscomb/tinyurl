@@ -1,10 +1,13 @@
 {{template "header" .}}
 <main>
-    <h1>Generated</h1>
+    <h1>
+        <a href="/">TinyURL</a>
+    </h1>
+    <h2>Original</h2>
     <pre>{{ .tinyurl.URL }}</pre>
+    <h2>Generated</h2>
     <label>
-        URL:
-        <input type="text" name="url" value="{{ .tinyurl.ID }}" />
+        <input type="text" name="url" value="{{ absoluteURL .tinyurl.ID }}" readonly size="30" />
     </label>
 </main>
 {{template "footer"}}
