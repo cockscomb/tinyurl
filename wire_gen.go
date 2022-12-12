@@ -22,6 +22,7 @@ func InitializeServer(ctx context.Context) (*web.Server, error) {
 		return nil, err
 	}
 	serverConfig := &config.ServerConfig
+	template := web.NewTemplate()
 	urlStoreConfig := &config.URLStoreConfig
 	awsConfig := &config.AWSConfig
 	config2, err := LoadAWSConfig(ctx, awsConfig)
@@ -33,6 +34,6 @@ func InitializeServer(ctx context.Context) (*web.Server, error) {
 	urlStore := repository.NewURLStore(urlStoreConfig, client)
 	tinyURLUsecase := usecase.NewTinyURLUsecase(urlStore)
 	controllerController := controller.NewController(tinyURLUsecase)
-	server := web.NewServer(serverConfig, controllerController)
+	server := web.NewServer(serverConfig, template, controllerController)
 	return server, nil
 }

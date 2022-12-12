@@ -8,10 +8,6 @@ import (
 	"net/url"
 )
 
-func (controller *Controller) index(c echo.Context) error {
-	return c.String(http.StatusOK, "Hello, World!")
-}
-
 func (controller *Controller) generate(c echo.Context) error {
 	var param struct {
 		URL string `form:"url"`

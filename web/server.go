@@ -16,8 +16,13 @@ type Server struct {
 	config *ServerConfig
 }
 
-func NewServer(config *ServerConfig, controller *controller.Controller) *Server {
+func NewServer(
+	config *ServerConfig,
+	template *Template,
+	controller *controller.Controller,
+) *Server {
 	e := echo.New()
+	e.Renderer = template
 	controller.Route(e.Group(""))
 	return &Server{
 		e:      e,

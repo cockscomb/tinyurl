@@ -18,7 +18,7 @@ func InitializeServer(ctx context.Context) (*web.Server, error) {
 		repository.RepositorySet,
 		usecase.UsecaseSet,
 		controller.NewController,
-		web.NewServer,
+		web.WebSet,
 	)
 	return &web.Server{}, nil
 }
