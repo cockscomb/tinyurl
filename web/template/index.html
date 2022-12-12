@@ -8,6 +8,7 @@
             URL:
             <input type="text" name="url" placeholder="https://example.com" />
         </label>
+        <input type="hidden" name="_csrf" value="{{ .csrfToken }}" />
         <button type="submit">Shorten</button>
     </form>
 </main>

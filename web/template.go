@@ -3,6 +3,7 @@ package web
 import (
 	"embed"
 	"github.com/labstack/echo/v4"
+	"github.com/labstack/echo/v4/middleware"
 	"html/template"
 	"io"
 	"net/url"
@@ -35,5 +36,11 @@ func NewTemplate(cfg *TemplateConfig) *Template {
 }
 
 func (t *Template) Render(w io.Writer, name string, data interface{}, c echo.Context) error {
+	if data == nil {
+		data = map[string]interface{}{}
+	}
+	if viewContext, isMap := data.(map[string]interface{}); isMap {
+		viewContext["csrfToken"] = c.Get(middleware.DefaultCSRFConfig.ContextKey)
+	}
 	return t.templates.ExecuteTemplate(w, name, data)
 }
