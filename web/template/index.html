@@ -1,3 +1,12 @@
 {{template "header" .}}
-Hi
+<main>
+    <h1>TinyURL</h1>
+    <form action="/generate" method="post">
+        <label>
+            URL:
+            <input type="text" name="url" placeholder="https://example.com" />
+        </label>
+        <button type="submit">Shorten</button>
+    </form>
+</main>
 {{template "footer"}}
