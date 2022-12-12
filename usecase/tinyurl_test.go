@@ -100,3 +100,39 @@ func TestTinyURLUsecase_Access(t *testing.T) {
 		assert.ErrorIs(t, err, entity.ErrNotFound)
 	})
 }
+
+func TestTinyURLUsecase_Peek(t *testing.T) {
+	targetURL := util.Must(url.Parse("https://example.com"))
+	tinyURL := entity.GenerateTinyURL(targetURL)
+
+	t.Run("success", func(t *testing.T) {
+		ctrl := gomock.NewController(t)
+		store := mock_repository.NewMockURLStore(ctrl)
+
+		usecase := NewTinyURLUsecase(store)
+
+		store.EXPECT().
+			Find(gomock.Any(), tinyURL.ID).
+			Return(tinyURL, nil).
+			Times(1)
+
+		tu, err := usecase.Peek(context.Background(), tinyURL.ID)
+		assert.NilError(t, err)
+		assert.DeepEqual(t, tu, tinyURL)
+	})
+
+	t.Run("not found", func(t *testing.T) {
+		ctrl := gomock.NewController(t)
+		store := mock_repository.NewMockURLStore(ctrl)
+
+		usecase := NewTinyURLUsecase(store)
+
+		store.EXPECT().
+			Find(gomock.Any(), "not_exist").
+			Return(nil, entity.ErrNotFound).
+			Times(1)
+
+		_, err := usecase.Peek(context.Background(), "not_exist")
+		assert.ErrorIs(t, err, entity.ErrNotFound)
+	})
+}

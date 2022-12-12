@@ -16,5 +16,6 @@ func NewController(tinyurl *usecase.TinyURLUsecase) *Controller {
 func (controller *Controller) Route(g *echo.Group) {
 	g.GET("/", controller.index)
 	g.POST("/generate", controller.generate)
+	g.GET("/peek/:id", controller.peek)
 	g.GET("/:id", controller.access)
 }

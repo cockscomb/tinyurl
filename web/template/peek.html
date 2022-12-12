@@ -1,0 +1,10 @@
+{{template "header" .}}
+<main>
+    <h1>Generated</h1>
+    <pre>{{ .tinyurl.URL }}</pre>
+    <label>
+        URL:
+        <input type="text" name="url" value="{{ .tinyurl.ID }}" />
+    </label>
+</main>
+{{template "footer"}}

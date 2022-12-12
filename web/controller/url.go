@@ -19,7 +19,7 @@ func (controller *Controller) generate(c echo.Context) error {
 	if err != nil {
 		return echo.ErrBadRequest
 	}
-	tinyurl, err := controller.tinyurl.Generate(c.Request().Context(), u)
+	tinyURL, err := controller.tinyurl.Generate(c.Request().Context(), u)
 	if err != nil {
 		var validationErr *entity.ValidationError
 		if errors.As(err, &validationErr) {
@@ -28,7 +28,27 @@ func (controller *Controller) generate(c echo.Context) error {
 		c.Logger().Error(err)
 		return echo.ErrInternalServerError
 	}
-	return c.String(http.StatusOK, tinyurl.ID)
+	return c.Redirect(http.StatusFound, "/peek/"+tinyURL.ID)
+}
+
+func (controller *Controller) peek(c echo.Context) error {
+	var param struct {
+		ID string `param:"id"`
+	}
+	if err := c.Bind(&param); err != nil {
+		return echo.ErrBadRequest
+	}
+	tinyURL, err := controller.tinyurl.Peek(c.Request().Context(), param.ID)
+	if err != nil {
+		if errors.Is(err, entity.ErrNotFound) {
+			return echo.ErrNotFound
+		}
+		c.Logger().Error(err)
+		return echo.ErrInternalServerError
+	}
+	return c.Render(http.StatusOK, "peek.html", map[string]interface{}{
+		"tinyurl": tinyURL,
+	})
 }
 
 func (controller *Controller) access(c echo.Context) error {

@@ -39,3 +39,7 @@ func (usecase *TinyURLUsecase) Generate(ctx context.Context, u *url.URL) (*entit
 func (usecase *TinyURLUsecase) Access(ctx context.Context, id string) (*entity.TinyURL, error) {
 	return usecase.store.Find(ctx, id)
 }
+
+func (usecase *TinyURLUsecase) Peek(ctx context.Context, id string) (*entity.TinyURL, error) {
+	return usecase.store.Find(ctx, id)
+}
