@@ -31,6 +31,13 @@ func NewServer(
 	e := echo.New()
 	e.Renderer = template
 
+	e.Use(middleware.SecureWithConfig(middleware.SecureConfig{
+		XSSProtection:         "1; mode=block",
+		ContentTypeNosniff:    "nosniff",
+		XFrameOptions:         "DENY",
+		ContentSecurityPolicy: "default-src 'self'",
+		ReferrerPolicy:        "strict-origin-when-cross-origin",
+	}))
 	e.Use(middleware.CSRFWithConfig(middleware.CSRFConfig{
 		TokenLookup:    "header:" + echo.HeaderXCSRFToken + ",form:_csrf",
 		CookieHTTPOnly: true,
