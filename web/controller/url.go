@@ -66,5 +66,5 @@ func (controller *Controller) access(c echo.Context) error {
 		c.Logger().Error(err)
 		return echo.ErrInternalServerError
 	}
-	return c.Redirect(http.StatusTemporaryRedirect, tinyURL.URL.String())
+	return c.Redirect(http.StatusFound, tinyURL.URL.String())
 }
